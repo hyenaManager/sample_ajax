@@ -1,5 +1,5 @@
 from django.urls import path,include
-import views
+from .views import get
 urlpatterns = [
-    path('ajax',views.get),
+    path('ajax',get),
 ]
