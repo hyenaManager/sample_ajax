@@ -1,6 +1,6 @@
 from django.urls import path,include
 from .views import get,register
 urlpatterns = [
-    path('ajax',get,name="get"),
+    path('home',get,name="home"),
     path('register',register,name="register")
 ]
