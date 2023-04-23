@@ -9,7 +9,9 @@ from .models import *
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html',{'user_name':request.user})
+    posts = Post.objects.all()
+
+    return render(request,'home.html',{'user_name':request.user,'posts':posts})
 
 @csrf_exempt
 def register(request):
