@@ -20,7 +20,10 @@ def register(request):
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            
             user = authenticate(username=username, password=password)
+            user_profile = UserProfile.objects.create(User=user)
+            user_profile.save()
             login(request, user)
             return redirect('home')
     else:
@@ -43,6 +46,12 @@ def create_post(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
-        post = Post.objects.create(title=title,content=content)
+        user = User.objects.get(username=request.user.username)
+        post = Post.objects.create(
+            title=title,
+            content=content,
+            user_id = request.user.id
+            )
         post.save()
         return redirect('home')
+    return render(request,'create_post.html',{'user_name':request.user.username})
