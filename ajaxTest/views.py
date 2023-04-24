@@ -10,8 +10,8 @@ from .models import *
 
 def home(request):
     posts = Post.objects.all()
-
-    return render(request,'home.html',{'user_name':request.user,'posts':posts})
+    pP = UserProfile.objects.get(user = request.user.id)
+    return render(request,'home.html',{'user_name':request.user,'posts':posts,"userP":pP})
 
 @csrf_exempt
 def register(request):
@@ -57,3 +57,15 @@ def create_post(request):
         post.save()
         return redirect('home')
     return render(request,'create_post.html',{'user_name':request.user.username})
+
+def create_userPp(request):
+    if request.method == 'POST':
+        profile_pict = request.FILES.get('profile_picture')
+        userP = UserProfile.objects.get(user=request.user.id)
+        userP.profile_pic = profile_pict
+        userP.save()
+        return redirect('home')
+    userP = UserProfile.objects.get(user=request.user.id)
+    return render(request,'userProfile.html',{
+        "user_profile":userP
+    })
