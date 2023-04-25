@@ -22,10 +22,9 @@ def register(request):
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            
+            user.save()
+            UserProfile.objects.create(user = user)
             user = authenticate(username=username, password=password)
-            user_profile = UserProfile.objects.create(User=user)
-            user_profile.save()
             login(request, user)
             return redirect('home')
     else:
@@ -48,11 +47,12 @@ def create_post(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
-        user = User.objects.get(username=request.user.username)
+        profile1 = UserProfile.objects.get(user=request.user.id)
         post = Post.objects.create(
+            user = profile1,
             title=title,
             content=content,
-            user_id = request.user.id
+            # user_id = request.user.id its only used when we do not set the foreignkey
             )
         post.save()
         return redirect('home')
@@ -61,8 +61,12 @@ def create_post(request):
 def create_userPp(request):
     if request.method == 'POST':
         profile_pict = request.FILES.get('profile_picture')
+        userBio = request.POST['bio']
         userP = UserProfile.objects.get(user=request.user.id)
-        userP.profile_pic = profile_pict
+        if request.FILES.get('profile_picture') != None:
+            userP.profile_pic = profile_pict
+        userP.profile_pic = userP.profile_pic
+        userP.bio = userBio
         userP.save()
         return redirect('home')
     userP = UserProfile.objects.get(user=request.user.id)

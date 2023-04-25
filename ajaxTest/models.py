@@ -2,23 +2,50 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+class MyUser(models.Model):
+    user_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+
+    def __str__(self) -> str:
+        return self.user_name
+    
+    class Meta:
+        ordering = ['user_name']
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=200,default='user does not provied bio')
     location = models.CharField(max_length=200,blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/',default="sample_ajax/ajaxTest/static/images/default_user.jpg")
     interests = models.CharField(max_length=200,blank=True)
     twitter_handle = models.CharField(max_length=50, blank=True,default='no twitter')
     facebook_handle = models.CharField(max_length=50, blank=True,default='no facebook')
     instagram_handle = models.CharField(max_length=50, blank=True,default='no instagram')
 
+    class Meta:
+        ordering = ['user']
+
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
+    image = models.ImageField(default="sample_ajax/ajaxTest/static/images/default_user.jpg")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+    def userProfile(self):
+        return self.user.profile_pic
+    
+    def userName(self):
+        return self.user.user
+    
+    def imageExist(self):
+        if self.image==None:
+            return False
+        else:
+            return True
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

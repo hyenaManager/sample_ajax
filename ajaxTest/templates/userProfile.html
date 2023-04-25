@@ -11,12 +11,12 @@
   
     <div class="form-field">
       <label for="profile_pic">Profile Picture:</label>
-      <input type="file" name="profile_picture" id="profile_pic">
+      <input type="file" name="profile_picture" id="profile_pic" value="{{user_profile.profile_pic.url}}">
     </div>
   
     <div class="form-field">
       <label for="bio">Bio:</label>
-      <textarea name="bio" id="bio">{{ user_profile.bio }}</textarea>
+      <textarea name="bio" id="bio">{{user_profile.bio}}</textarea>
     </div>
   
     <button type="submit">Save</button>
