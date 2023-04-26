@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action="create_post" method="post" id="createPost">
+    <form action="create_post" method="post" id="createPost" style="margin-top:120px;">
     {% csrf_token %}
       <div>
         <label for="title">Title:</label>

@@ -35,4 +35,9 @@
 .post-footer a {
     margin-right: 10px;
     color: #333;
+    text-decoration: none;
+}
+.post-footer{
+    display: flex;
+    justify-content: space-between;
 }

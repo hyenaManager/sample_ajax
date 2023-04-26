@@ -34,6 +34,7 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    like_count = models.PositiveIntegerField(default=0)
 
     def userProfile(self):
         return self.user.profile_pic
@@ -41,11 +42,13 @@ class Post(models.Model):
     def userName(self):
         return self.user.user
     
-    def imageExist(self):
-        if self.image==None:
-            return False
-        else:
-            return True
+    def like_increment(self):
+        self.like_count +=1
+        self.save()
+
+    def like_decrement(self):
+        self.like_count -=1
+        self.save()
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

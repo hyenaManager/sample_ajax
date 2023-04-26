@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="row">
+<div class="row " style ="margin-top:110px;">
     <div class="col border border-primary">a</div>
     <div class="col-6 border border-primary">
       {% for post in posts %}
@@ -14,16 +14,15 @@
                 <p>{{created_at}}</p>
             </div>
         </div>
-        {% if post.imageExist %}
         <div class="post-body">
-          <img src="{{post.image.url}}" alt="Post Image">
+          <p>{{post.content}}</p>
+          {% comment %} <img src="{{post.image.url}}" alt="Post Image"> {% endcomment %}
         </div>
-        {% endif %}
-        
+        <p id="like-button-container"></p>
         <div class="post-footer">
-            <a href="#">Like</a>
-            <a href="#">Comment</a>
-            <a href="#">Share</a>
+            <div><a href="like{{post.id}}" id="likeIn"><i class="fa fa-thumbs-up" style="font-size:24px"></i></a> {{post.like_count}}</div>
+            <div><a href="#">Comment</a> {{comment}}</div>
+            <div><a href="#">Share</a> {{share}}</div>
         </div>
       </div>
       {% endfor %}
@@ -58,7 +57,4 @@
       </div>
     </div>
 </div>
-<script>
-
-</script>
 {% endblock  %}

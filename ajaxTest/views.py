@@ -73,3 +73,14 @@ def create_userPp(request):
     return render(request,'userProfile.html',{
         "user_profile":userP
     })
+def like(request,pk):
+    post = Post.objects.get(id=pk)
+    like = Like.objects.filter(user=request.user,post=post).first()
+    if like:
+        like.delete()
+        post.like_decrement()
+    else:
+        Like.objects.create(user = request.user,post=post)
+        post.like_increment()
+
+    return redirect('home')
