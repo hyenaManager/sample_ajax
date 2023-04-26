@@ -60,4 +60,9 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    content = models.TextField(max_length=200)
 
